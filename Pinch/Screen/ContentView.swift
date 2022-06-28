@@ -52,7 +52,7 @@ struct ContentView: View {
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                withAnimation(.linear(duration: 1)){
+                                withAnimation(.linear(duration: 1)) {
                                     imageOffset = value.translation
                                 }
                             }
@@ -60,6 +60,27 @@ struct ContentView: View {
                                 if imageScale <= 1 {
                                     resetImageState()
                                 }
+                            }
+                    )
+                // MARK: - 3. MAGNIFICATION
+                    .gesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                withAnimation(.linear(duration: 1)) {
+                                    if imageScale >= 1 && imageScale < 5 {
+                                        imageScale = value
+                                    } else if imageScale > 5 {
+                                        imageScale = 5
+                                    }
+                                }
+                            }
+                            .onEnded { _ in
+                                if imageScale > 5 {
+                                    imageScale = 5
+                                } else if imageScale <= 1 {
+                                    resetImageState()
+                                }
+                                
                             }
                     )
                 
